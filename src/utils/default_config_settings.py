@@ -23,6 +23,7 @@ def default_config():
         "headless": False,
         "disable_security": True,
         "enable_recording": True,
+        "chrome_profile_directory": "Profile 2",
         "window_w": 1280,
         "window_h": 1100,
         "save_recording_path": "./tmp/record_videos",
@@ -69,12 +70,13 @@ def save_current_config(*args):
         "headless": args[13],
         "disable_security": args[14],
         "enable_recording": args[15],
-        "window_w": args[16],
-        "window_h": args[17],
-        "save_recording_path": args[18],
-        "save_trace_path": args[19],
-        "save_agent_history_path": args[20],
-        "task": args[21],
+        "chrome_profile_directory": args[16],
+        "window_w": args[17],
+        "window_h": args[18],
+        "save_recording_path": args[19],
+        "save_trace_path": args[20],
+        "save_agent_history_path": args[21],
+        "task": args[22],
     }
     return save_config_to_file(current_config)
 
@@ -100,6 +102,7 @@ def update_ui_from_config(config_file):
                 gr.update(value=loaded_config.get("headless", False)),
                 gr.update(value=loaded_config.get("disable_security", True)),
                 gr.update(value=loaded_config.get("enable_recording", True)),
+                gr.update(value=loaded_config.get("chrome_profile_directory", "Profile 2")),
                 gr.update(value=loaded_config.get("window_w", 1280)),
                 gr.update(value=loaded_config.get("window_h", 1100)),
                 gr.update(value=loaded_config.get("save_recording_path", "./tmp/record_videos")),
@@ -114,12 +117,14 @@ def update_ui_from_config(config_file):
                 gr.update(), gr.update(), gr.update(), gr.update(), gr.update(),
                 gr.update(), gr.update(), gr.update(), gr.update(), gr.update(),
                 gr.update(), gr.update(), gr.update(), gr.update(), gr.update(),
-                gr.update(), "Error: Invalid configuration file."
+                gr.update(), gr.update(), gr.update(), gr.update(), gr.update(),
+                "Error: Invalid configuration file."
             )
     return (
         gr.update(), gr.update(), gr.update(), gr.update(), gr.update(),
         gr.update(), gr.update(), gr.update(), gr.update(), gr.update(),
         gr.update(), gr.update(), gr.update(), gr.update(), gr.update(),
         gr.update(), gr.update(), gr.update(), gr.update(), gr.update(),
-        gr.update(), "No file selected."
+        gr.update(), gr.update(), gr.update(), gr.update(), gr.update(),
+        "No file selected."
     )

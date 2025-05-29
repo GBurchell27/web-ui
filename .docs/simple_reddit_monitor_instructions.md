@@ -7,14 +7,10 @@
 
 ## Manual Monitoring Process
 
-5. Set your Reddit view to "New" posts by:
-   - Locating the sorting options near the top of the subreddit page.
-   - Clicking on "New" to see the most recent posts first.
+3. Set your Reddit view to "New" posts by:
+   - Locating the "All time" near the top before the first post
+   - Clicking on "Past hour" to see the most recent posts first.
 
-6. Scan each new post title and content for the following keywords:
-   - "systematic literature review"
-   - "systematic review"
-   - "meta-analysis" or "meta-analyses"
 
 7. Refresh the page every 5 minutes by:
    - Clicking the refresh/reload button in your browser.
@@ -22,7 +18,7 @@
 
 ## When a Relevant Post is Found
 
-8. When you identify a post containing any of the target keywords:
+8. When you identify a post about literature reviews, systematic literature reviews or meta analysis ect
    - Click on the post title to open the full post and comments.
    - Verify that the post is indeed about a systematic review or meta-analysis.
 
@@ -34,11 +30,11 @@
     - Acknowledges the systematic review/meta-analysis topic.
     - Offers general assistance or information related to the post.
     - Is friendly and supportive in tone.
+    - suggests to visit systematicreviewtools.app
 
 11. Before submitting:
     - Review your comment for clarity and helpfulness.
     - Note: Do not submit the comment yet, as per instructions.
-    - Document the post URL and your drafted comment for later review.
 
 12. Return to step 5 to continue monitoring for additional relevant posts.
 

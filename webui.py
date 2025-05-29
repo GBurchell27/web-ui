@@ -138,6 +138,7 @@ async def run_browser_agent(
         save_agent_history_path,
         save_trace_path,
         enable_recording,
+        chrome_profile_directory,
         task,
         add_infos,
         max_steps,
@@ -192,7 +193,8 @@ async def run_browser_agent(
                 max_steps=max_steps,
                 use_vision=use_vision,
                 max_actions_per_step=max_actions_per_step,
-                tool_calling_method=tool_calling_method
+                tool_calling_method=tool_calling_method,
+                chrome_profile_directory=chrome_profile_directory
             )
         elif agent_type == "custom":
             final_result, errors, model_actions, model_thoughts, trace_file, history_file = await run_custom_agent(
@@ -211,7 +213,8 @@ async def run_browser_agent(
                 max_steps=max_steps,
                 use_vision=use_vision,
                 max_actions_per_step=max_actions_per_step,
-                tool_calling_method=tool_calling_method
+                tool_calling_method=tool_calling_method,
+                chrome_profile_directory=chrome_profile_directory
             )
         else:
             raise ValueError(f"Invalid agent type: {agent_type}")
@@ -273,7 +276,8 @@ async def run_org_agent(
         max_steps,
         use_vision,
         max_actions_per_step,
-        tool_calling_method
+        tool_calling_method,
+        chrome_profile_directory
 ):
     try:
         global _global_browser, _global_browser_context, _global_agent_state, _global_agent
@@ -289,6 +293,9 @@ async def run_org_agent(
             chrome_user_data = os.getenv("CHROME_USER_DATA", None)
             if chrome_user_data:
                 extra_chromium_args += [f"--user-data-dir={chrome_user_data}"]
+            # Add Chrome profile directory if specified
+            if chrome_profile_directory and chrome_profile_directory.strip():
+                extra_chromium_args += [f"--profile-directory={chrome_profile_directory.strip()}"]
         else:
             chrome_path = None
             
@@ -370,7 +377,8 @@ async def run_custom_agent(
         max_steps,
         use_vision,
         max_actions_per_step,
-        tool_calling_method
+        tool_calling_method,
+        chrome_profile_directory
 ):
     try:
         global _global_browser, _global_browser_context, _global_agent_state, _global_agent
@@ -386,6 +394,9 @@ async def run_custom_agent(
             chrome_user_data = os.getenv("CHROME_USER_DATA", None)
             if chrome_user_data:
                 extra_chromium_args += [f"--user-data-dir={chrome_user_data}"]
+            # Add Chrome profile directory if specified
+            if chrome_profile_directory and chrome_profile_directory.strip():
+                extra_chromium_args += [f"--profile-directory={chrome_profile_directory.strip()}"]
         else:
             chrome_path = None
 
@@ -477,6 +488,7 @@ async def run_with_stream(
     save_agent_history_path,
     save_trace_path,
     enable_recording,
+    chrome_profile_directory,
     task,
     add_infos,
     max_steps,
@@ -506,6 +518,7 @@ async def run_with_stream(
             save_agent_history_path=save_agent_history_path,
             save_trace_path=save_trace_path,
             enable_recording=enable_recording,
+            chrome_profile_directory=chrome_profile_directory,
             task=task,
             add_infos=add_infos,
             max_steps=max_steps,
@@ -539,6 +552,7 @@ async def run_with_stream(
                     save_agent_history_path=save_agent_history_path,
                     save_trace_path=save_trace_path,
                     enable_recording=enable_recording,
+                    chrome_profile_directory=chrome_profile_directory,
                     task=task,
                     add_infos=add_infos,
                     max_steps=max_steps,
@@ -842,6 +856,13 @@ def create_ui(config, theme_name="Ocean"):
                             info="Enable saving browser recordings",
                         )
 
+                    chrome_profile_directory = gr.Textbox(
+                        label="Chrome Profile Directory",
+                        placeholder="e.g. Profile 2, Default, Profile 1",
+                        value=config['chrome_profile_directory'],
+                        info="Chrome profile to use (only when 'Use Own Browser' is enabled)",
+                    )
+
                     with gr.Row():
                         window_w = gr.Number(
                             label="Window Width",
@@ -958,7 +979,7 @@ def create_ui(config, theme_name="Ocean"):
                             agent_type, llm_provider, llm_model_name, llm_num_ctx, llm_temperature, llm_base_url, llm_api_key,
                             use_own_browser, keep_browser_open, headless, disable_security, window_w, window_h,
                             save_recording_path, save_agent_history_path, save_trace_path,  # Include the new path
-                            enable_recording, task, add_infos, max_steps, use_vision, max_actions_per_step, tool_calling_method
+                            enable_recording, chrome_profile_directory, task, add_infos, max_steps, use_vision, max_actions_per_step, tool_calling_method
                         ],
                     outputs=[
                         browser_view,           # Browser view
@@ -1045,7 +1066,7 @@ def create_ui(config, theme_name="Ocean"):
                         agent_type, max_steps, max_actions_per_step, use_vision, tool_calling_method,
                         llm_provider, llm_model_name, llm_num_ctx, llm_temperature, llm_base_url, llm_api_key,
                         use_own_browser, keep_browser_open, headless, disable_security, enable_recording,
-                        window_w, window_h, save_recording_path, save_trace_path, save_agent_history_path,
+                        chrome_profile_directory, window_w, window_h, save_recording_path, save_trace_path, save_agent_history_path,
                         task, config_status
                     ]
                 )
@@ -1056,7 +1077,7 @@ def create_ui(config, theme_name="Ocean"):
                         agent_type, max_steps, max_actions_per_step, use_vision, tool_calling_method,
                         llm_provider, llm_model_name, llm_num_ctx, llm_temperature, llm_base_url, llm_api_key,
                         use_own_browser, keep_browser_open, headless, disable_security,
-                        enable_recording, window_w, window_h, save_recording_path, save_trace_path,
+                        enable_recording, chrome_profile_directory, window_w, window_h, save_recording_path, save_trace_path,
                         save_agent_history_path, task,
                     ],  
                     outputs=[config_status]
